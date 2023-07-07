@@ -60,7 +60,7 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="my-10">
+    <>
       <h3 className="text-center mb-5 text-lg font-semibold">Please Login</h3>
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -164,7 +164,7 @@ const LoginForm = () => {
           <span className="underline">Register</span>
         </Link>
       </p>
-    </div>
+    </>
   );
 };
 

@@ -50,7 +50,7 @@ const RegisterForm = () => {
   };
 
   return (
-    <div className="my-10">
+    <>
       <h3 className="text-center mb-5 text-lg font-semibold">Register Here</h3>
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -188,7 +188,7 @@ const RegisterForm = () => {
           <span className="underline">Login</span>
         </Link>
       </p>
-    </div>
+    </>
   );
 };
 
