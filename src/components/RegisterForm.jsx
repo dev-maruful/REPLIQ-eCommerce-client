@@ -1,8 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import useAxios from "../hooks/useAxios";
+import { AuthContext } from "../providers/AuthProvider";
+import { toast } from "react-hot-toast";
 
 const RegisterForm = () => {
+  const { createUser, updateUserProfile } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const API = useAxios();
+
   // using react-hook-form's features to get data from the form
   const {
     register,
@@ -12,7 +19,34 @@ const RegisterForm = () => {
 
   //   getting data from the form
   const onSubmit = (data) => {
-    console.log(data);
+    createUser(data?.email, data?.password).then(() => {
+      updateUserProfile(data?.name, data?.photoUrl)
+        .then(() => {
+          // gathering user's info to send it to the server
+          const saveUser = {
+            name: data?.name,
+            email: data?.email,
+            photo: data?.photoUrl,
+            phone: data?.phone,
+          };
+
+          // sending data to the server
+          API.post("/users", saveUser)
+            .then((data) => {
+              data?.data?.insertedId &&
+                toast.success("User successfully registered");
+              navigate("/");
+            })
+            .catch((err) => {
+              console.log(err);
+              toast.error(err.code);
+            });
+        })
+        .catch((error) => {
+          console.log(error);
+          toast.error(error.code);
+        });
+    });
   };
 
   return (
@@ -22,6 +56,25 @@ const RegisterForm = () => {
         onSubmit={handleSubmit(onSubmit)}
         className="max-w-sm mx-2 md:mx-auto mb-3"
       >
+        <div className="mb-4">
+          <label
+            htmlFor="name"
+            className="block text-gray-700 text-sm font-bold mb-2"
+          >
+            Name
+          </label>
+          <input
+            type="text"
+            id="name"
+            {...register("name", { required: "Name is required" })}
+            className={`border border-gray-300 rounded-md p-2 w-full ${
+              errors.name ? "border-red-500" : ""
+            }`}
+          />
+          {errors.name && (
+            <p className="text-red-500 text-xs mt-1">{errors.name.message}</p>
+          )}
+        </div>
         <div className="mb-4">
           <label
             htmlFor="email"
@@ -59,7 +112,10 @@ const RegisterForm = () => {
             id="phone"
             {...register("phone", {
               required: "Phone is required",
-              pattern: { value: /^\d{11}$/, message: "Invalid phone number" },
+              pattern: {
+                value: /^\d{11}$/,
+                message: "Only 11 digits acceptable",
+              },
             })}
             className={`border border-gray-300 rounded-md p-2 w-full ${
               errors.phone ? "border-red-500" : ""

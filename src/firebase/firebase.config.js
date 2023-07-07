@@ -5,12 +5,12 @@ import { initializeApp } from "firebase/app";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyDkRivd2m99BeWM5ddK-jDTNjwOrY2E7AY",
-  authDomain: "repliq-ecommerce.firebaseapp.com",
-  projectId: "repliq-ecommerce",
-  storageBucket: "repliq-ecommerce.appspot.com",
-  messagingSenderId: "853928922679",
-  appId: "1:853928922679:web:0c3621966185e0bbf079b2",
+  apiKey: import.meta.env.VITE_apiKey,
+  authDomain: import.meta.env.VITE_authDomain,
+  projectId: import.meta.env.VITE_projectId,
+  storageBucket: import.meta.env.VITE_storageBucket,
+  messagingSenderId: import.meta.env.VITE_messagingSenderId,
+  appId: import.meta.env.VITE_appId,
 };
 
 // Initialize Firebase
