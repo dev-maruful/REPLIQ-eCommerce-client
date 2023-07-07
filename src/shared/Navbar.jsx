@@ -1,9 +1,34 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
+import { toast } from "react-hot-toast";
+import useAxios from "../hooks/useAxios";
 
 const Navbar = () => {
+  const { user, logout } = useAuth();
+  const API = useAxios();
+  const [currentUser, setCurrentUser] = useState({});
+
   // toggle the navbar for responsive display
   const [isOpen, setIsOpen] = useState(false);
+
+  // getting current user data from server
+  useEffect(() => {
+    API(`/users/${user?.email}`).then((data) => {
+      setCurrentUser(data.data);
+    });
+  }, [user]);
+
+  // user logout functionality
+  const handleLogout = () => {
+    logout()
+      .then(() => {
+        toast.success("User logged out");
+      })
+      .catch((err) => {
+        toast.error(err.code);
+      });
+  };
 
   //   navbar menu items
   const navItems = (
@@ -18,36 +43,69 @@ const Navbar = () => {
       >
         Home
       </NavLink>
-      <NavLink
-        to="/dashboard"
-        className={({ isActive }) =>
-          isActive
-            ? "text-white font-bold px-3 py-2 rounded-md text-sm"
-            : "text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-        }
-      >
-        Dashboard
-      </NavLink>
-      <NavLink
-        to="/cart"
-        className={({ isActive }) =>
-          isActive
-            ? "text-white font-bold px-3 py-2 rounded-md text-sm"
-            : "text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-        }
-      >
-        Cart
-      </NavLink>
-      <NavLink
-        to="/login"
-        className={({ isActive }) =>
-          isActive
-            ? "text-white font-bold px-3 py-2 rounded-md text-sm"
-            : "text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-        }
-      >
-        Login
-      </NavLink>
+
+      {/* making dynamic route based on user's role */}
+      {user && currentUser?.role === "admin" ? (
+        <NavLink
+          to="/dashboard"
+          className={({ isActive }) =>
+            isActive
+              ? "text-white font-bold px-3 py-2 rounded-md text-sm"
+              : "text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+          }
+        >
+          Dashboard
+        </NavLink>
+      ) : (
+        user && (
+          <NavLink
+            to="/cart"
+            className={({ isActive }) =>
+              isActive
+                ? "text-white font-bold px-3 py-2 rounded-md text-sm"
+                : "text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+            }
+          >
+            Cart
+          </NavLink>
+        )
+      )}
+      {user && currentUser?.role !== "admin" && (
+        <NavLink
+          to="/checkout"
+          className={({ isActive }) =>
+            isActive
+              ? "text-white font-bold px-3 py-2 rounded-md text-sm"
+              : "text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+          }
+        >
+          Checkout
+        </NavLink>
+      )}
+      {user ? (
+        <NavLink
+          onClick={handleLogout}
+          to="/login"
+          className={({ isActive }) =>
+            isActive
+              ? "text-white font-bold px-3 py-2 rounded-md text-sm"
+              : "text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+          }
+        >
+          Logout
+        </NavLink>
+      ) : (
+        <NavLink
+          to="/login"
+          className={({ isActive }) =>
+            isActive
+              ? "text-white font-bold px-3 py-2 rounded-md text-sm"
+              : "text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+          }
+        >
+          Login
+        </NavLink>
+      )}
     </>
   );
 

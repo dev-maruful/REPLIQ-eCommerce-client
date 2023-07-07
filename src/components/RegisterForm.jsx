@@ -1,12 +1,12 @@
-import React, { useContext } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import useAxios from "../hooks/useAxios";
-import { AuthContext } from "../providers/AuthProvider";
 import { toast } from "react-hot-toast";
+import useAuth from "../hooks/useAuth";
 
 const RegisterForm = () => {
-  const { createUser, updateUserProfile } = useContext(AuthContext);
+  const { createUser, updateUserProfile } = useAuth();
   const navigate = useNavigate();
   const API = useAxios();
 

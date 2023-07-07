@@ -1,9 +1,20 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import googleLogo from "../assets/icons/google_logo.png";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
+import useAuth from "../hooks/useAuth";
+import useAxios from "../hooks/useAxios";
 
 const LoginForm = () => {
+  const { login, loginWithGoogle } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const API = useAxios();
+
+  // capturing the location path where user comes from
+  const from = location.state?.from?.pathname || "/";
+
   // using react-hook-form's features to get data from the form
   const {
     register,
@@ -13,7 +24,39 @@ const LoginForm = () => {
 
   //   getting data from the form
   const onSubmit = (data) => {
-    console.log(data);
+    login(data?.email, data?.password)
+      .then(() => {
+        toast.success("User Login Successful");
+        navigate(from, { replace: true });
+      })
+      .catch((err) => {
+        toast.error(err.code);
+      });
+  };
+
+  const handleGoogleLogin = () => {
+    loginWithGoogle()
+      .then((result) => {
+        const saveUser = {
+          name: result?.user?.displayName,
+          email: result?.user?.email,
+          photo: result?.user?.photoURL,
+        };
+
+        API.post("/users", saveUser)
+          .then((data) => {
+            if (data?.data?.insertedId || data?.data?.message) {
+              toast.success("User logged in successfully");
+              navigate(from, { replace: true });
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      })
+      .catch((err) => {
+        toast.error(err.code);
+      });
   };
 
   return (
@@ -106,7 +149,10 @@ const LoginForm = () => {
           </button>
         </div>
       </form>
-      <div className="flex items-center justify-center">
+      <div
+        onClick={handleGoogleLogin}
+        className="flex items-center justify-center"
+      >
         <button className="text-black font-semibold py-2 px-4 rounded-md w-full max-w-sm border-2 border-black hover:font-bold flex items-center justify-center gap-2 mb-5">
           <span>Login With</span>
           <img className="h-6 w-6 inline" src={googleLogo} alt="" />
