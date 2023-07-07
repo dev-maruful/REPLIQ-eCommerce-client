@@ -3,12 +3,14 @@ import useAxios from "../hooks/useAxios";
 import useAuth from "../hooks/useAuth";
 import SummaryItem from "../components/SummaryItem";
 import { FaBoxOpen, FaPaperPlane, FaUsers } from "react-icons/fa";
+import AdminButton from "../components/AdminButton";
 
 const Dashboard = () => {
   const API = useAxios();
   const { user } = useAuth();
   const [currentUser, setCurrentUser] = useState({});
 
+  // get user details from server
   useEffect(() => {
     API(`/users/${user?.email}`).then((data) => {
       setCurrentUser(data?.data);
@@ -42,15 +44,9 @@ const Dashboard = () => {
             ></SummaryItem>
           </div>
           <div className="flex flex-col gap-3">
-            <button className="w-40 py-2 border-2 border-blue-500 uppercase font-medium hover:bg-blue-500 cursor-pointer hover:text-white">
-              Add product
-            </button>
-            <button className="w-40 py-2 border-2 border-blue-500 uppercase font-medium hover:bg-blue-500 cursor-pointer hover:text-white">
-              All products
-            </button>
-            <button className="w-40 py-2 border-2 border-blue-500 uppercase font-medium hover:bg-blue-500 cursor-pointer hover:text-white">
-              orders
-            </button>
+            <AdminButton name="add product"></AdminButton>
+            <AdminButton name="all products"></AdminButton>
+            <AdminButton name="orders"></AdminButton>
           </div>
         </div>
       </div>
