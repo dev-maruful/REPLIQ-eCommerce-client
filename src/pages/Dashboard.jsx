@@ -10,7 +10,6 @@ const Dashboard = () => {
   const API = useAxios();
   const { user } = useAuth();
   const [currentUser, setCurrentUser] = useState({});
-  const [allUsers, setAllUsers] = useState([]);
   const [customers, setCustomers] = useState([]);
 
   // get user details from server
@@ -24,18 +23,16 @@ const Dashboard = () => {
 
     API("/users")
       .then((data) => {
-        setAllUsers(data?.data);
-
         // filtering customers from all users
-        const normalUsers = allUsers.filter((user) => user?.role !== "admin");
+        const normalUsers = data?.data?.filter(
+          (user) => user?.role !== "admin"
+        );
         setCustomers(normalUsers);
       })
       .catch((err) => {
         console.log(err);
       });
   }, [user]);
-
-  console.log(customers);
 
   return (
     <div className="flex items-center justify-center">

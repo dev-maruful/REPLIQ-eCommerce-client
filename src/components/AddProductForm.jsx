@@ -1,15 +1,55 @@
 import React from "react";
 import { useForm } from "react-hook-form";
+import useAxios from "../hooks/useAxios";
+import { toast } from "react-hot-toast";
+
+const image_hosting_token = import.meta.env.VITE_Image_Upload_token;
 
 const AddProductForm = () => {
+  const API = useAxios();
+  const image_hosting_url = `https://api.imgbb.com/1/upload?key=${image_hosting_token}`;
+
   const {
     register,
+    reset,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
   const onSubmit = (data) => {
-    console.log(data);
+    // destructuring the properties of form data
+    const { name, price, quantity, ratings } = data;
+    // get image from form data
+    const formData = new FormData();
+    formData.append("image", data.photo[0]);
+
+    // storing image in image hosting website
+    API.post(image_hosting_url, formData)
+      .then((data) => {
+        if (data?.data?.success) {
+          const photoUrl = data?.data?.data?.display_url;
+
+          //   make product object to send to server
+          const product = {
+            name,
+            photo: photoUrl,
+            price: parseFloat(price),
+            quantity: parseInt(quantity),
+            ratings: parseFloat(ratings),
+          };
+
+          //   post product to server
+          API.post("/products", product)
+            .then((data) => {
+              if (data?.data?.insertedId) {
+                reset();
+                toast.success("Product added successfully!");
+              }
+            })
+            .catch((err) => console.log(err));
+        }
+      })
+      .catch((err) => console.log(err));
   };
 
   return (
