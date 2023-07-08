@@ -53,7 +53,7 @@ const AddProductForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="max-w-sm mx-auto">
+    <form onSubmit={handleSubmit(onSubmit)} className="max-w-sm mx-auto px-5">
       <div className="mb-4">
         <label
           htmlFor="name"

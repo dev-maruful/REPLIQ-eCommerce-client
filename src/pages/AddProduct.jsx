@@ -1,12 +1,11 @@
 import React from "react";
 import AddProductForm from "../components/AddProductForm";
+import SectionHeader from "../components/SectionHeader";
 
 const AddProduct = () => {
   return (
     <div>
-      <h3 className="text-center mb-10 text-xl font-semibold">
-        Please add a product
-      </h3>
+      <SectionHeader title="Please add a product"></SectionHeader>
       <AddProductForm></AddProductForm>
     </div>
   );

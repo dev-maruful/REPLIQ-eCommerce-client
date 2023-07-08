@@ -3,14 +3,16 @@ import useAxios from "../hooks/useAxios";
 import useAuth from "../hooks/useAuth";
 import SummaryItem from "../components/SummaryItem";
 import { FaBoxOpen, FaPaperPlane, FaUsers } from "react-icons/fa";
-import AdminButton from "../components/AdminButton";
+import PrimaryButton from "../components/PrimaryButton";
 import { Link } from "react-router-dom";
+import SectionHeader from "../components/SectionHeader";
 
 const Dashboard = () => {
   const API = useAxios();
   const { user } = useAuth();
   const [currentUser, setCurrentUser] = useState({});
   const [customers, setCustomers] = useState([]);
+  const [products, setProducts] = useState([]);
 
   // get user details from server
   useEffect(() => {
@@ -21,6 +23,7 @@ const Dashboard = () => {
       })
       .catch((err) => console.log(err));
 
+    // get all users data
     API("/users")
       .then((data) => {
         // filtering customers from all users
@@ -32,18 +35,25 @@ const Dashboard = () => {
       .catch((err) => {
         console.log(err);
       });
+
+    // get products data
+    API("/products")
+      .then((data) => {
+        setProducts(data?.data);
+      })
+      .catch((err) => console.log(err));
   }, [user]);
 
   return (
     <div className="flex items-center justify-center">
       <div className="text-center">
-        <h3 className="text-xl font-semibold mb-2">Overview</h3>
-        <h4 className="font-medium">
+        <h4 className="font-medium mb-2">
           Welcome back,{" "}
           <span className="text-blue-500">{currentUser?.name}!</span>
         </h4>
-        <div className="mt-10 flex items-center gap-20">
-          <div className="flex gap-5">
+        <SectionHeader title="Overview"></SectionHeader>
+        <div className="mt-10 flex flex-col lg:flex-row items-center gap-20">
+          <div className="flex flex-col md:flex-row gap-5">
             <SummaryItem
               icon={<FaUsers></FaUsers>}
               name="customers"
@@ -52,7 +62,7 @@ const Dashboard = () => {
             <SummaryItem
               icon={<FaBoxOpen></FaBoxOpen>}
               name="products"
-              quantity={10}
+              quantity={products.length}
             ></SummaryItem>
             <SummaryItem
               icon={<FaPaperPlane></FaPaperPlane>}
@@ -62,11 +72,11 @@ const Dashboard = () => {
           </div>
           <div className="flex flex-col gap-3">
             <Link to="/dashboard/addProduct">
-              <AdminButton name="add product"></AdminButton>
+              <PrimaryButton name="add product"></PrimaryButton>
             </Link>
-            <AdminButton name="all products"></AdminButton>
-            <AdminButton name="orders"></AdminButton>
-            <AdminButton name="add customer"></AdminButton>
+            <PrimaryButton name="all products"></PrimaryButton>
+            <PrimaryButton name="orders"></PrimaryButton>
+            <PrimaryButton name="add customer"></PrimaryButton>
           </div>
         </div>
       </div>
