@@ -6,6 +6,7 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 import AddProduct from "../pages/AddProduct";
 import AdminRoute from "./AdminRoute";
+import AllProducts from "../pages/AllProducts";
 
 const router = createBrowserRouter([
   {
@@ -37,6 +38,14 @@ const router = createBrowserRouter([
         element: (
           <AdminRoute>
             <AddProduct></AddProduct>
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "/dashboard/allProducts",
+        element: (
+          <AdminRoute>
+            <AllProducts></AllProducts>
           </AdminRoute>
         ),
       },

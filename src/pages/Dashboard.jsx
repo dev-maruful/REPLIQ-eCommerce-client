@@ -74,7 +74,9 @@ const Dashboard = () => {
             <Link to="/dashboard/addProduct">
               <PrimaryButton name="add product"></PrimaryButton>
             </Link>
-            <PrimaryButton name="all products"></PrimaryButton>
+            <Link to="/dashboard/allProducts" state={products}>
+              <PrimaryButton name="all products"></PrimaryButton>
+            </Link>
             <PrimaryButton name="orders"></PrimaryButton>
             <PrimaryButton name="add customer"></PrimaryButton>
           </div>
