@@ -3,6 +3,7 @@ import { Link, NavLink } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import { toast } from "react-hot-toast";
 import useAxios from "../hooks/useAxios";
+import NavItem from "../components/NavItem";
 
 const Navbar = () => {
   const { user, logout } = useAuth();
@@ -33,79 +34,24 @@ const Navbar = () => {
   //   navbar menu items
   const navItems = (
     <>
-      <NavLink
-        to="/"
-        className={({ isActive }) =>
-          isActive
-            ? "text-white font-bold px-3 py-2 rounded-md text-sm"
-            : "text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-        }
-      >
-        Home
-      </NavLink>
+      <NavItem route="/" name="Home"></NavItem>
 
       {/* making dynamic route based on user's role */}
       {user && currentUser?.role === "admin" ? (
-        <NavLink
-          to="/dashboard"
-          className={({ isActive }) =>
-            isActive
-              ? "text-white font-bold px-3 py-2 rounded-md text-sm"
-              : "text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-          }
-        >
-          Dashboard
-        </NavLink>
+        <NavItem route="/dashboard" name="Dashboard"></NavItem>
       ) : (
         user &&
         currentUser?.role !== "admin" && (
-          <NavLink
-            to="/cart"
-            className={({ isActive }) =>
-              isActive
-                ? "text-white font-bold px-3 py-2 rounded-md text-sm"
-                : "text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-            }
-          >
-            Cart
-          </NavLink>
+          <NavItem route="/cart" name="Cart"></NavItem>
         )
       )}
       {user && currentUser?.role !== "admin" && (
-        <NavLink
-          to="/checkout"
-          className={({ isActive }) =>
-            isActive
-              ? "text-white font-bold px-3 py-2 rounded-md text-sm"
-              : "text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-          }
-        >
-          Checkout
-        </NavLink>
+        <NavItem route="/checkout" name="Checkout"></NavItem>
       )}
       {user ? (
-        <NavLink
-          onClick={handleLogout}
-          to="/login"
-          className={({ isActive }) =>
-            isActive
-              ? "text-white font-bold px-3 py-2 rounded-md text-sm"
-              : "text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-          }
-        >
-          Logout
-        </NavLink>
+        <NavItem route="/login" name="Logout" event={handleLogout}></NavItem>
       ) : (
-        <NavLink
-          to="/login"
-          className={({ isActive }) =>
-            isActive
-              ? "text-white font-bold px-3 py-2 rounded-md text-sm"
-              : "text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-          }
-        >
-          Login
-        </NavLink>
+        <NavItem route="/login" name="Login"></NavItem>
       )}
     </>
   );
