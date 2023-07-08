@@ -4,6 +4,8 @@ import Home from "../pages/Home";
 import Dashboard from "../pages/Dashboard";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
+import AddProduct from "../pages/AddProduct";
+import AdminRoute from "./AdminRoute";
 
 const router = createBrowserRouter([
   {
@@ -16,7 +18,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/dashboard",
-        element: <Dashboard></Dashboard>,
+        element: (
+          <AdminRoute>
+            <Dashboard></Dashboard>
+          </AdminRoute>
+        ),
       },
       {
         path: "/login",
@@ -25,6 +31,14 @@ const router = createBrowserRouter([
       {
         path: "/register",
         element: <Register></Register>,
+      },
+      {
+        path: "/dashboard/addProduct",
+        element: (
+          <AdminRoute>
+            <AddProduct></AddProduct>
+          </AdminRoute>
+        ),
       },
     ],
   },

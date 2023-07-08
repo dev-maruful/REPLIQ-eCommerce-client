@@ -57,7 +57,8 @@ const Navbar = () => {
           Dashboard
         </NavLink>
       ) : (
-        user && (
+        user &&
+        currentUser?.role !== "admin" && (
           <NavLink
             to="/cart"
             className={({ isActive }) =>
