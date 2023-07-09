@@ -3,44 +3,40 @@ import SectionHeader from "../components/SectionHeader";
 import { Link, useLocation } from "react-router-dom";
 import PrimaryButton from "../components/PrimaryButton";
 
-const AllProducts = () => {
+const AllCustomers = () => {
   const location = useLocation();
-  const products = location?.state;
+  const customers = location?.state;
 
   return (
     <>
       <SectionHeader
-        title={`Total Products: ${products.length}`}
+        title={`Total customers: ${customers?.length}`}
       ></SectionHeader>
       <div className="text-end mb-5">
-        <Link to="/dashboard/allProducts/addProduct">
-          <PrimaryButton name="add product"></PrimaryButton>
-        </Link>
+        <PrimaryButton name="add new customer"></PrimaryButton>
       </div>
-      <div className="overflow-x-auto max-w-5xl mx-auto px-5 lg:px-0">
+      <div className="overflow-x-auto max-w-3xl mx-auto">
         <table className="table">
           {/* head */}
           <thead>
             <tr>
               <th></th>
               <th>Name</th>
-              <th>Price</th>
-              <th>Quantity</th>
+              <th>Email</th>
               <th>Action</th>
             </tr>
           </thead>
           <tbody>
-            {products.map((product, index) => (
-              <tr key={product._id}>
+            {customers.map((customer, index) => (
+              <tr key={customer._id}>
                 <th>{index + 1}</th>
-                <td>{product.name}</td>
-                <td>${product.price}</td>
-                <td>{product.quantity} pcs</td>
+                <td>{customer.name}</td>
+                <td>{customer.email}</td>
                 <td>
                   <Link
-                    to={`/dashboard/allProducts/productDetails/${product._id}`}
+                    to={`/dashboard/allCustomers/customerDetails/${customer._id}`}
                   >
-                    <PrimaryButton name="See details"></PrimaryButton>
+                    <PrimaryButton name="see details"></PrimaryButton>
                   </Link>
                 </td>
               </tr>
@@ -52,4 +48,4 @@ const AllProducts = () => {
   );
 };
 
-export default AllProducts;
+export default AllCustomers;

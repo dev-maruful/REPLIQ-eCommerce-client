@@ -44,6 +44,8 @@ const Dashboard = () => {
       .catch((err) => console.log(err));
   }, [user]);
 
+  console.log(customers);
+
   return (
     <div className="flex items-center justify-center">
       <div className="text-center">
@@ -71,14 +73,15 @@ const Dashboard = () => {
             ></SummaryItem>
           </div>
           <div className="flex flex-col gap-3">
-            <Link to="/dashboard/addProduct">
-              <PrimaryButton name="add product"></PrimaryButton>
-            </Link>
             <Link to="/dashboard/allProducts" state={products}>
-              <PrimaryButton name="all products"></PrimaryButton>
+              <PrimaryButton name="all products" width={44}></PrimaryButton>
             </Link>
-            <PrimaryButton name="orders"></PrimaryButton>
-            <PrimaryButton name="add customer"></PrimaryButton>
+            <Link to="/dashboard/allCustomers" state={customers}>
+              <PrimaryButton name="All customers" width={44}></PrimaryButton>
+            </Link>
+            <Link to="/dashboard/allOrders">
+              <PrimaryButton name="All orders" width={44}></PrimaryButton>
+            </Link>
           </div>
         </div>
       </div>

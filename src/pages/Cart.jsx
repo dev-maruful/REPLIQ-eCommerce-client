@@ -39,7 +39,7 @@ const Cart = () => {
   const total = cartProducts.reduce((sum, item) => item.price + sum, 0);
 
   return (
-    <div className="max-w-7xl mx-auto">
+    <>
       <SectionHeader title="My Cart"></SectionHeader>
       <div className="flex items-center gap-5 justify-end mb-5">
         <p className="text-lg font-semibold">Total: ${total}</p>
@@ -77,7 +77,7 @@ const Cart = () => {
           </tbody>
         </table>
       </div>
-    </div>
+    </>
   );
 };
 

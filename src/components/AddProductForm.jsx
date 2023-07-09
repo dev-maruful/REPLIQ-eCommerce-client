@@ -18,7 +18,7 @@ const AddProductForm = () => {
 
   const onSubmit = (data) => {
     // destructuring the properties of form data
-    const { name, price, quantity, ratings } = data;
+    const { name, price, quantity, ratings, description } = data;
     // get image from form data
     const formData = new FormData();
     formData.append("image", data.photo[0]);
@@ -33,6 +33,7 @@ const AddProductForm = () => {
           const product = {
             name,
             photo: photoUrl,
+            description,
             price: parseFloat(price),
             quantity: parseInt(quantity),
             ratings: parseFloat(ratings),
@@ -160,6 +161,29 @@ const AddProductForm = () => {
         />
         {errors.ratings && (
           <p className="text-red-500 text-xs mt-1">{errors.ratings.message}</p>
+        )}
+      </div>
+      <div className="mb-4">
+        <label
+          htmlFor="description"
+          className="block text-gray-700 text-sm font-bold mb-2"
+        >
+          Description
+        </label>
+        <input
+          type="text"
+          id="description"
+          {...register("description", {
+            required: "Description is required",
+          })}
+          className={`border border-gray-300 rounded-md p-2 w-full input-lg ${
+            errors.description ? "border-red-500" : ""
+          }`}
+        />
+        {errors.description && (
+          <p className="text-red-500 text-xs mt-1">
+            {errors.description.message}
+          </p>
         )}
       </div>
       <div className="text-center">

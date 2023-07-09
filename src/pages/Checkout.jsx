@@ -7,7 +7,7 @@ const Checkout = () => {
   const total = location.state;
 
   return (
-    <div>
+    <>
       <SectionHeader title="Checkout"></SectionHeader>
       <p className="text-center font-medium mb-5">Please Pay: ${total}</p>
       <form className="max-w-sm mx-auto">
@@ -70,7 +70,7 @@ const Checkout = () => {
           Pay Now
         </button>
       </form>
-    </div>
+    </>
   );
 };
 
