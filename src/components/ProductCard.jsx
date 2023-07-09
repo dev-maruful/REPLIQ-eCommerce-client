@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import PrimaryButton from "./PrimaryButton";
 import Rating from "react-rating";
 import { FaRegStar, FaStar } from "react-icons/fa";
@@ -9,10 +9,12 @@ import { toast } from "react-hot-toast";
 const ProductCard = ({ name, photo, price, ratings }) => {
   const { user } = useAuth();
   const API = useAxios();
+  const [currentUser, setCurrentUser] = useState({});
 
   // making cart data to send to server
   const cartProduct = { email: user?.email, name, photo, price, ratings };
 
+  // product adding to cart
   const handleAddToCart = () => {
     API.post("/cartProducts", cartProduct).then((res) => {
       if (res?.data?.insertedId) {
@@ -22,6 +24,16 @@ const ProductCard = ({ name, photo, price, ratings }) => {
       }
     });
   };
+
+  // getting user information to verify if the user is admin or not
+  useEffect(() => {
+    API(`/users/${user?.email}`)
+      .then((res) => {
+        console.log(res.data);
+        setCurrentUser(res.data);
+      })
+      .catch((err) => console.log(err));
+  }, [user]);
 
   return (
     <div className="card card-compact w-full bg-base-100 shadow-xl py-5">

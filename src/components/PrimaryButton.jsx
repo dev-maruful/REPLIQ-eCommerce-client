@@ -1,8 +1,12 @@
 import React from "react";
+import useAuth from "../hooks/useAuth";
 
 const PrimaryButton = ({ name, event, width }) => {
+  const { user } = useAuth();
+
   return (
     <button
+      disabled={!user}
       onClick={event && event}
       className={`${
         width ? `w-44` : ""

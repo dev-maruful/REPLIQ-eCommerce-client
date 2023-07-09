@@ -1,11 +1,28 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import SectionHeader from "../components/SectionHeader";
 import { Link, useLocation } from "react-router-dom";
 import PrimaryButton from "../components/PrimaryButton";
+import useAxios from "../hooks/useAxios";
 
 const AllCustomers = () => {
-  const location = useLocation();
-  const customers = location?.state;
+  //   const location = useLocation();
+  //   const customers = location?.state;
+  const API = useAxios();
+  const [customers, setCustomers] = useState([]);
+
+  useEffect(() => {
+    API("/users")
+      .then((data) => {
+        // filtering customers from all users
+        const normalUsers = data?.data?.filter(
+          (user) => user?.role !== "admin"
+        );
+        setCustomers(normalUsers);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   return (
     <>
@@ -13,7 +30,9 @@ const AllCustomers = () => {
         title={`Total customers: ${customers?.length}`}
       ></SectionHeader>
       <div className="text-end mb-5">
-        <PrimaryButton name="add new customer"></PrimaryButton>
+        <Link to="/dashboard/allCustomers/addCustomer">
+          <PrimaryButton name="add new customer"></PrimaryButton>
+        </Link>
       </div>
       <div className="overflow-x-auto max-w-3xl mx-auto">
         <table className="table">
@@ -27,7 +46,7 @@ const AllCustomers = () => {
             </tr>
           </thead>
           <tbody>
-            {customers.map((customer, index) => (
+            {customers?.map((customer, index) => (
               <tr key={customer._id}>
                 <th>{index + 1}</th>
                 <td>{customer.name}</td>

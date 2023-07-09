@@ -12,6 +12,7 @@ import Cart from "../pages/Cart";
 import Checkout from "../pages/Checkout";
 import AllCustomers from "../pages/AllCustomers";
 import CustomerDetails from "../pages/CustomerDetails";
+import AddCustomer from "../pages/AddCustomer";
 
 const router = createBrowserRouter([
   {
@@ -69,6 +70,10 @@ const router = createBrowserRouter([
       {
         path: "/dashboard/allCustomers",
         element: <AllCustomers></AllCustomers>,
+      },
+      {
+        path: "/dashboard/allCustomers/addCustomer",
+        element: <AddCustomer></AddCustomer>,
       },
       {
         path: "/dashboard/allCustomers/customerDetails/:id",

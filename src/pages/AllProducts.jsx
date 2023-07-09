@@ -1,11 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import SectionHeader from "../components/SectionHeader";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import PrimaryButton from "../components/PrimaryButton";
+import useAxios from "../hooks/useAxios";
 
 const AllProducts = () => {
-  const location = useLocation();
-  const products = location?.state;
+  const [products, setProducts] = useState([]);
+  const API = useAxios();
+
+  useEffect(() => {
+    API("/products")
+      .then((res) => {
+        setProducts(res.data);
+      })
+      .catch((err) => console.error(err));
+  }, []);
 
   return (
     <>

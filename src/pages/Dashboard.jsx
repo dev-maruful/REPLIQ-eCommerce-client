@@ -73,7 +73,7 @@ const Dashboard = () => {
             ></SummaryItem>
           </div>
           <div className="flex flex-col gap-3">
-            <Link to="/dashboard/allProducts" state={products}>
+            <Link to="/dashboard/allProducts">
               <PrimaryButton name="all products" width={44}></PrimaryButton>
             </Link>
             <Link to="/dashboard/allCustomers" state={customers}>
