@@ -3,6 +3,8 @@ import SectionHeader from "../components/SectionHeader";
 import useAxios from "../hooks/useAxios";
 import useAuth from "../hooks/useAuth";
 import { toast } from "react-hot-toast";
+import PrimaryButton from "../components/PrimaryButton";
+import { Link } from "react-router-dom";
 
 const Cart = () => {
   const API = useAxios();
@@ -33,9 +35,18 @@ const Cart = () => {
       .catch((err) => console.error(err));
   };
 
+  //   calculating total price of cart products
+  const total = cartProducts.reduce((sum, item) => item.price + sum, 0);
+
   return (
-    <div>
+    <div className="max-w-7xl mx-auto">
       <SectionHeader title="My Cart"></SectionHeader>
+      <div className="flex items-center gap-5 justify-end mb-5">
+        <p className="text-lg font-semibold">Total: ${total}</p>
+        <Link to="/cart/checkout" state={total}>
+          <PrimaryButton name="Checkout"></PrimaryButton>
+        </Link>
+      </div>
       <div className="overflow-x-auto max-w-6xl mx-auto">
         <table className="table">
           {/* head */}

@@ -45,9 +45,6 @@ const Navbar = () => {
           <NavItem route="/cart" name="Cart"></NavItem>
         )
       )}
-      {user && currentUser?.role !== "admin" && (
-        <NavItem route="/checkout" name="Checkout"></NavItem>
-      )}
       {user ? (
         <NavItem route="/login" name="Logout" event={handleLogout}></NavItem>
       ) : (
