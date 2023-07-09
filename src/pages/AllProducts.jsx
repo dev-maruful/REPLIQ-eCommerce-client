@@ -1,6 +1,6 @@
 import React from "react";
 import SectionHeader from "../components/SectionHeader";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import PrimaryButton from "../components/PrimaryButton";
 
 const AllProducts = () => {
@@ -13,7 +13,7 @@ const AllProducts = () => {
       <SectionHeader
         title={`Total Products: ${products.length}`}
       ></SectionHeader>
-      <div className="overflow-x-auto max-w-5xl mx-auto">
+      <div className="overflow-x-auto max-w-5xl mx-auto px-5 lg:px-0">
         <table className="table">
           {/* head */}
           <thead>
@@ -33,7 +33,9 @@ const AllProducts = () => {
                 <td>${product.price}</td>
                 <td>{product.quantity} pcs</td>
                 <td>
-                  <PrimaryButton name="See details"></PrimaryButton>
+                  <Link to={`/productDetails/${product._id}`}>
+                    <PrimaryButton name="See details"></PrimaryButton>
+                  </Link>
                 </td>
               </tr>
             ))}

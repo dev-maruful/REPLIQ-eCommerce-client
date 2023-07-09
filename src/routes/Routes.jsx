@@ -7,6 +7,7 @@ import Register from "../pages/Register";
 import AddProduct from "../pages/AddProduct";
 import AdminRoute from "./AdminRoute";
 import AllProducts from "../pages/AllProducts";
+import ProductDetails from "../pages/ProductDetails";
 
 const router = createBrowserRouter([
   {
@@ -48,6 +49,10 @@ const router = createBrowserRouter([
             <AllProducts></AllProducts>
           </AdminRoute>
         ),
+      },
+      {
+        path: "/productDetails/:id",
+        element: <ProductDetails></ProductDetails>,
       },
     ],
   },
