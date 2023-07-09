@@ -8,6 +8,7 @@ import AddProduct from "../pages/AddProduct";
 import AdminRoute from "./AdminRoute";
 import AllProducts from "../pages/AllProducts";
 import ProductDetails from "../pages/ProductDetails";
+import Cart from "../pages/Cart";
 
 const router = createBrowserRouter([
   {
@@ -35,6 +36,14 @@ const router = createBrowserRouter([
         element: <Register></Register>,
       },
       {
+        path: "/cart",
+        element: <Cart></Cart>,
+      },
+      {
+        path: "/productDetails/:id",
+        element: <ProductDetails></ProductDetails>,
+      },
+      {
         path: "/dashboard/addProduct",
         element: (
           <AdminRoute>
@@ -49,10 +58,6 @@ const router = createBrowserRouter([
             <AllProducts></AllProducts>
           </AdminRoute>
         ),
-      },
-      {
-        path: "/productDetails/:id",
-        element: <ProductDetails></ProductDetails>,
       },
     ],
   },

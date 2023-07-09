@@ -11,6 +11,7 @@ const ProductDetails = () => {
   const API = useAxios();
   const [currentProduct, setCurrentProduct] = useState({});
 
+  // get single product to display details
   useEffect(() => {
     API(`/products/${id}`)
       .then((data) => {
@@ -19,6 +20,7 @@ const ProductDetails = () => {
       .catch((err) => console.error(err));
   }, []);
 
+  // destructuring properties from single product
   const { name, photo, price, quantity, ratings, description } = currentProduct;
 
   return (
