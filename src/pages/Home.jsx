@@ -24,6 +24,7 @@ const Home = () => {
           photo={product.photo}
           price={product.price}
           ratings={product.ratings}
+          id={product._id}
         ></ProductCard>
       ))}
     </div>

@@ -5,8 +5,9 @@ import { FaRegStar, FaStar } from "react-icons/fa";
 import useAuth from "../hooks/useAuth";
 import useAxios from "../hooks/useAxios";
 import { toast } from "react-hot-toast";
+import { Link } from "react-router-dom";
 
-const ProductCard = ({ name, photo, price, ratings }) => {
+const ProductCard = ({ name, photo, price, ratings, id }) => {
   const { user } = useAuth();
   const API = useAxios();
   const [currentUser, setCurrentUser] = useState({});
@@ -59,6 +60,9 @@ const ProductCard = ({ name, photo, price, ratings }) => {
             name="Add to cart"
             event={handleAddToCart}
           ></PrimaryButton>
+          <Link to={`/dashboard/allProducts/productDetails/${id}`}>
+            <PrimaryButton name="See details"></PrimaryButton>
+          </Link>
         </div>
       </div>
     </div>
